@@ -1,16 +1,19 @@
-// const config = require('../config/db-config.json')
-// const mysql = require('mysql')
-const express = require('express')
-const getConnection = require('../app.js')
+import config from '../config/db-config.json'
+import mysql from'mysql'
+import express from 'express'
 const router = express.Router()
 
-// const connection = mysql.createConnection({
-//     host     : config.host,
-//     user     : config.user,
-//     password : config.password,
-//     database : config.database,
-//     port     : config.port
-// })
+const pool = mysql.createPool(config)
+
+//connection SUCCESS CHECK
+const getConnection = (callback) => {
+    pool.getConnection((err, conn) => {
+        if(err) throw err;
+        else callback(conn);
+        console.log('SQL DATABASE IS CONNECTED');
+    
+    });
+}
 
 router.get('/', (req, res) => {
     getConnection((conn) => {
@@ -18,7 +21,7 @@ router.get('/', (req, res) => {
             'SELECT * FROM USER',
             (err, res) => {
                 if (err) throw err;
-                res.json(result);
+                console.log(res)
             }
         )
     })
@@ -30,4 +33,4 @@ router.get('/', (req, res) => {
     // })
 })
 
-module.exports = router
+export default router
