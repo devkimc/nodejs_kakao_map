@@ -4,10 +4,21 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import createError from 'http-errors'
 import cors from 'cors'
+import { createPool } from 'mysql'
+import config from './config/db-config.json'
+import api from './routes';
 
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
-import testAPIRouter from './routes/testAPI';
+
+//connection SUCCESS CHECK
+const pool = createPool(config);
+
+export const getConnection = (callback) => {
+  pool.getConnection((err, conn) => {
+      if(err) throw err;
+      else callback(conn);
+      console.log('SQL DATABASE IS CONNECTED');
+  });
+}
 
 const app = express()
 
@@ -18,9 +29,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../project_www/build')))
 app.use(cors())
 
-app.use('/', indexRouter)
-app.use('/users', usersRouter)
-app.use('/testAPI', testAPIRouter)
+app.use('/', api)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
