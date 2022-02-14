@@ -1,15 +1,14 @@
 import { Router } from 'express';
-import user from './users'
-import test from './testAPI'
+import auth from './auth'
+import map from './map'
 
 const router = Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // res.render('index', { title: 'Express' });
 });
 
-router.use("/user", user)
-router.use("/test", test)
+router.use("/auth", auth)
+router.use("/map", map)
 
 export default router;
