@@ -17,6 +17,8 @@ export const getConnection = (callback) => {
       if(err) throw err;
       else callback(conn);
       console.log('SQL DATABASE IS CONNECTED');
+      console.log('process.env.PORT: ' + process.env.PORT)
+      console.log('process.env.NODE_ENV: ' + process.env.NODE_ENV)
   });
 }
 

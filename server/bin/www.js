@@ -4,29 +4,37 @@
  * Module dependencies.
  */
 
- import app from '../app';
- import debugLib from 'debug';
- import http from 'http';
- const debug = debugLib('sub_proj_back:server');
+import app from '../app';
+import debugLib from 'debug';
+import http from 'http';
+import dotenv from 'dotenv'
+
+const debug = debugLib('sub_proj_back:server');
+
+const env = dotenv.config().parsed
 
 /**
  * Get port from environment and store in Express.
  */
+const host = ( process.env.NODE_ENV === 'development' ? env.HOST_DEV : env.HOST_PROD )
+const port = ( process.env.NODE_ENV === 'development' ? env.PORT_DEV : env.PORT_PROD )
 
-var port = normalizePort(process.env.PORT || '9000');
+// const port = normalizePort(process.env.PORT || '9000');
 app.set('port', port);
+console.log('host: ' + host)
+console.log('port: ' + port)
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, host);
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -35,7 +43,7 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -59,7 +67,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
+  const bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
 
@@ -83,8 +91,8 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+  const addr = server.address();
+  const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
