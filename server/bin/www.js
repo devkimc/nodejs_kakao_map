@@ -7,22 +7,14 @@
 import app from '../app';
 import debugLib from 'debug';
 import http from 'http';
-import dotenv from 'dotenv'
-
 const debug = debugLib('sub_proj_back:server');
-
-const env = dotenv.config().parsed
 
 /**
  * Get port from environment and store in Express.
  */
-const host = ( process.env.NODE_ENV === 'development' ? env.HOST_DEV : env.HOST_PROD )
-const port = ( process.env.NODE_ENV === 'development' ? env.PORT_DEV : env.PORT_PROD )
 
-// const port = normalizePort(process.env.PORT || '9000');
+const port = normalizePort(process.env.PORT || '9000');
 app.set('port', port);
-console.log('host: ' + host)
-console.log('port: ' + port)
 
 /**
  * Create HTTP server.
@@ -34,7 +26,7 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port, host);
+server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
