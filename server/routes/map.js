@@ -6,9 +6,9 @@ router.get('/', (req, res) => {
     getConnection((conn) => {
         conn.query(
             'SELECT * FROM USER',
-            (err, res) => {
+            (err, result) => {
                 if (err) throw err;
-                console.log(res)
+                res.json(result)
             }
         )
     })
