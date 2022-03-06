@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import auth from './auth'
-import map from './map'
+import favRest from './favRest'
+import kakao from './kakao'
 
 const router = Router();
 
@@ -9,6 +10,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.use("/auth", auth)
-router.use("/map", map)
+router.use("/fav-rest", favRest)
+router.use("/kakao", kakao)
 
 export default router;
