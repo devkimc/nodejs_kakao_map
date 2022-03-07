@@ -17,8 +17,7 @@ router.post('/login', function(req, res) {
       (err, result) => {
         if (err) throw err;
 
-				if (result.length === 0)
-				{
+				if (result.length === 0) {
 					return res.status(200).json({
 						code: 10000,
 						msg: "ID와 비밀번호가 일치하지 않습니다.",
@@ -26,8 +25,7 @@ router.post('/login', function(req, res) {
 					})
 				}
 
-				else
-				if (result.length === 1)
+				else if (result.length === 1)
 				{
 					return res.status(200).json({
 						code: 10001,
@@ -36,9 +34,8 @@ router.post('/login', function(req, res) {
 					})
 				}
 
-				else
-				{
-					return res.status(200).json({
+				else {
+					return res.status(500).json({
 						code: 99999,
 						msg: "서버 오류입니다.",
 						list: result
