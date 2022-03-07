@@ -12,7 +12,6 @@ router.post('/place/info', (req, res) => {
 
   axios.get(kakaoPlaceIdUrl).then(
     response => {
-
       if (response.data.isExist === false)
       {
         res.status(200).json({
@@ -20,6 +19,7 @@ router.post('/place/info', (req, res) => {
           msg: "조회되지 않는 장소입니다. 관리자에게 문의 바랍니다.",
           list: response.data
         })
+        console.log(response.data)
       }
 
       else
@@ -30,11 +30,12 @@ router.post('/place/info', (req, res) => {
           msg: "장소에 대한 정보가 조회되었습니다.",
           list: response.data
         })
+        console.log(response.data)
       }
 
       else
       {
-        res.status(200).json({
+        res.status(500).json({
           code: 99999,
           msg: "서버 오류입니다.",
           list: response.data

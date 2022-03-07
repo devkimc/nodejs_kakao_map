@@ -12,7 +12,8 @@ router.post('/login', function(req, res) {
       '   FROM USER        ' +
       '  WHERE USER_ID = ? ' +
       '    AND USER_PW = ? ' ,
-      [req.body.USER_ID , req.body.USER_PW],
+      [ req.body.USER_ID
+      , req.body.USER_PW ],
       (err, result) => {
         if (err) throw err;
 
