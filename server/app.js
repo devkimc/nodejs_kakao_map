@@ -17,7 +17,7 @@ const pool = createPool(config);
 
 export const getConnection = (callback) => {
   pool.getConnection((err, conn) => {
-      if(err) throw err;
+      if(err) throw err
       else callback(conn);
       console.log('SQL DATABASE IS CONNECTED');
   });

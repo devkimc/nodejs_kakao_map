@@ -5,12 +5,12 @@ const router = Router()
 /*
     SELECT FAVORITES_RESTATURANT : POST /fav-rest/info
 */
-router.get('/info', (req, res) => {
+router.post('/info', (req, res) => {
   getConnection((conn) => {
     conn.query(
       ' SELECT T02.REST_ID               ' +
       '      , T02.REST_NM               ' +
-      '      , T02.CATE_CD               ' +
+      '      , T02.CATE_ID               ' +
       '      , T02.CATE_NM               ' +
       '      , T02.LAT_CDNT              ' +
       '      , T02.LNG_CDNT              ' +
@@ -20,7 +20,7 @@ router.get('/info', (req, res) => {
       '    AND T01.REST_ID = T02.REST_ID ' ,
       [ req.body.USER_ID ],
       (err, result) => {
-        if (err) throw err;
+        if (err) throw err
 
         if (result.length === 0) {
           return res.status(200).json({
@@ -30,7 +30,7 @@ router.get('/info', (req, res) => {
           })
         }
 
-        else if (result.length > 1) {
+        else if (result.length >= 1) {
           return res.status(200).json({
             code: 40001,
             msg: "즐겨찾기 식당이 정상 조회되었습니다.",
@@ -47,13 +47,14 @@ router.get('/info', (req, res) => {
         }
       }
     )
+    conn.release()
   })
 })
 
 /*
     INSERT/DELETE FAVORITES_RESTATURANT: POST /fav-rest/proc
 */
-router.get('/proc', (req, res) => {
+router.post('/proc', (req, res) => {
   getConnection((conn) => {
     conn.query(
       ' SELECT REST_ID     ' +
@@ -63,7 +64,7 @@ router.get('/proc', (req, res) => {
       [ req.body.USER_ID
       , req.body.REST_ID ] ,
       (err, result) => {
-        if (err) throw err;
+        if (err) throw err
 
         // 즐겨찾기 추가
         if (req.body.INS_YN === 'Y') {
@@ -76,21 +77,48 @@ router.get('/proc', (req, res) => {
           }
 
           else {
-
-            // INSERT FAVREST_TABLE
-
             conn.query(
               ' SELECT REST_ID     ' +
               '   FROM REST        ' +
               '  WHERE REST_ID = ? ' ,
               [ req.body.REST_ID ] ,
               (err, result2) => {
-                if (err) throw err;
+                if (err) throw err
       
                 if (result2.length === 0)
                 {
                   // INSER REST_TABLE
+                  conn.query(
+                    ' INSERT INTO REST ' +                    
+                    ' (REST_ID, REST_NM ,ADDR , CATE_ID , CATE_NM, LAT_CDNT, LNG_CDNT, CRT_DTM) ' +
+                    '  VALUES (?, ?, ?, ?, ?, ?, ?, SYSDATE()) ' ,
+                    [ req.body.REST_ID
+                    , req.body.REST_NM
+                    , req.body.ADDR
+                    , req.body.CATE_ID
+                    , req.body.CATE_NM
+                    , req.body.LAT_CDNT
+                    , req.body.LNG_CDNT ] ,
+                    (err) => {
+                      if (err) throw err
+                    }
+                  )
                 }
+              }
+            )
+            conn.query(
+              '  INSERT INTO FAVREST         ' +
+              ' (USER_ID, REST_ID, CRT_DTM)  ' +
+              '  VALUES (?, ?, SYSDATE()) ' ,
+              [ req.body.USER_ID
+              , req.body.REST_ID ] ,
+              (err) => {
+                if (err) throw err
+                return res.status(200).json({
+                  code: 90000,
+                  msg: "정상 처리되었습니다.",
+                  list:""
+                })
               }
             )
           }
@@ -114,14 +142,20 @@ router.get('/proc', (req, res) => {
               '    AND REST_ID = ? ' ,
               [ req.body.USER_ID
               , req.body.REST_ID ],
-              (err, result) => {
-                if (err) throw err;
+              (err) => {
+                if (err) throw err
+                return res.status(200).json({
+                  code: 90000,
+                  msg: "정상 처리되었습니다.",
+                  list:""
+                })
               }
             )
           }
         }
       }
     )
+    conn.release()
   })
 })
 

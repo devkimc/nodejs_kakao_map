@@ -15,7 +15,7 @@ router.post('/login', function(req, res) {
       [ req.body.USER_ID
       , req.body.USER_PW ],
       (err, result) => {
-        if (err) throw err;
+        if (err) throw err
 
 				if (result.length === 0) {
 					return res.status(200).json({
@@ -43,6 +43,7 @@ router.post('/login', function(req, res) {
 				}
       }
     )
+		conn.release()
   })
 });
 
