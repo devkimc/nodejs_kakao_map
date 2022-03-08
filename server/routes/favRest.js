@@ -32,8 +32,8 @@ router.post('/info', (req, res) => {
 
         else if (result.length >= 1) {
           return res.status(200).json({
-            code: 40001,
-            msg: "즐겨찾기 식당이 정상 조회되었습니다.",
+            code: 10001,
+            msg: "정상 조회되었습니다.",
             list: result
           })
         }
@@ -69,7 +69,7 @@ router.post('/proc', (req, res) => {
         // 즐겨찾기 추가
         if (req.body.INS_YN === 'Y') {
           if (result.length >= 1) {
-            return res.status(400).json({
+            return res.status(200).json({
               code: 40002,
               msg: "이미 즐겨찾기 목록에 추가된 식당입니다.",
               list: result
@@ -115,7 +115,7 @@ router.post('/proc', (req, res) => {
               (err) => {
                 if (err) throw err
                 return res.status(200).json({
-                  code: 90000,
+                  code: 10000,
                   msg: "정상 처리되었습니다.",
                   list:""
                 })
@@ -127,7 +127,7 @@ router.post('/proc', (req, res) => {
         // 즐겨찾기 삭제
         else {
           if (result.length !== 1) {
-            return res.status(400).json({
+            return res.status(200).json({
               code: 40003,
               msg: "즐겨찾기 목록에 존재하지 않은 식당입니다.",
               list: result
@@ -145,7 +145,7 @@ router.post('/proc', (req, res) => {
               (err) => {
                 if (err) throw err
                 return res.status(200).json({
-                  code: 90000,
+                  code: 10000,
                   msg: "정상 처리되었습니다.",
                   list:""
                 })

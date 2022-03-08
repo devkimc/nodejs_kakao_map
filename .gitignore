@@ -1,3 +1,3 @@
 node_modules/
-server/config/db-config.json
+server/config/
 package-lock.json

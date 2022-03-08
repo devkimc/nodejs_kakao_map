@@ -6,11 +6,7 @@ import createError from 'http-errors'
 import cors from 'cors'
 import { createPool } from 'mysql'
 import config from './config/db-config.json'
-import api from './routes';
-import axios from 'axios';
-import { Router } from 'express';
-const router = Router()
-
+import api from './routes'
 
 //connection SUCCESS CHECK
 const pool = createPool(config);
