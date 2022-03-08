@@ -18,7 +18,6 @@ router.post('/place/info', (req, res) => {
           msg: "조회되지 않는 장소입니다. 관리자에게 문의 바랍니다.",
           list: response.data
         })
-        console.log(response.data)
       }
 
       else if (response.data.isExist === true)
@@ -28,7 +27,6 @@ router.post('/place/info', (req, res) => {
           msg: "정상 조회되었습니다.",
           list: response.data
         })
-        console.log(response.data)
       }
 
       else {
