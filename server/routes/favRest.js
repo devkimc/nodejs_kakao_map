@@ -90,7 +90,7 @@ router.post('/proc', (req, res) => {
                   // INSER REST_TABLE
                   conn.query(
                     ' INSERT INTO REST ' +                    
-                    ' (REST_ID, REST_NM ,ADDR , CATE_ID , CATE_NM, LAT_CDNT, LNG_CDNT, CRT_DTM) ' +
+                    ' (REST_ID, REST_NM, ADDR, CATE_ID, CATE_NM, LAT_CDNT, LNG_CDNT, CRT_DTM) ' +
                     '  VALUES (?, ?, ?, ?, ?, ?, ?, SYSDATE()) ' ,
                     [ req.body.REST_ID
                     , req.body.REST_NM
